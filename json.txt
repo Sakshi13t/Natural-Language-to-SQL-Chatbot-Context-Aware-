@@ -1,0 +1,882 @@
+[
+  {
+    "instruction": "The task is to retrieve the latest trip details for a vehicle.",
+    "input": "What is the latest trip ID, DI number, status, and Gate-Out time for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT id AS trip_id, dinumber, status, gateOut FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateOut DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles currently in the YARD-IN stage.",
+    "input": "How many vehicles are currently in the YARD-IN stage?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'YARD-IN';"
+  },
+  {
+    "instruction": "The task is to find the Packing-Out time and DI number for vehicle.",
+    "input": "What is the latest Packing-Out time and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT vw_trip_details.packingOut,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY vw_trip_details.packingOut DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the latest driver ID for vehicle [VEHICLE_NUMBER].",
+    "input": "Who is the latest driver of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT driverId FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the latest Gate-In time and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the latest Gate-In time and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT gateIn, diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY vw_trip_details.gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the latest material type code and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the material type code and DI number for the latest trip of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT material_code,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY vw_trip_details.gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the latest Gate-Out time, driver ID, and vehicle number for vehicles in the GATE-OUT stage.",
+    "input": "What is the latest Gate-Out time, driver ID, and vehicle number in the GATE-OUT stage?",
+    "output": "SELECT gateOut, driverId, vehicleNumber FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'GATE-OUT' ORDER BY gateOut DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the trip ID, driver ID, and company code for the latest trip of vehicle [VEHICLE_NUMBER].",
+    "input": "What is the latest trip ID, driver ID, and company code for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT tripId, driverId, company_code FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the Gate-Out time and driver ID for vehicle [VEHICLE_NUMBER] with status 'C'.",
+    "input": "What is the Gate-Out time and driver ID for vehicle [VEHICLE_NUMBER] with status 'C'?",
+    "output": "SELECT gateOut, driverId FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' AND status = 'C' LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the latest Packing-In time and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the latest Packing-In time and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT packingIn,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY vw_trip_details.packingIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the latest plant stage, driver ID, and company code for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the latest plant stage, driver ID, and company code for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT mapPlantStageLocation, driverId, company_code FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the Gate-In and Gate-Out times along with the DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What are the latest Gate-In, Gate-Out times, and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT gateIn, gateOut, diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY vw_trip_details.gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to check if vehicle [VEHICLE_NUMBER] is in the YARD-IN stage.",
+    "input": "Is vehicle [VEHICLE_NUMBER] currently in the YARD-IN stage?",
+    "output": "SELECT mapPlantStageLocation, yardIn FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' AND mapPlantStageLocation = 'YARD-IN' LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of trips made today.",
+    "input": "How many trips have been made today?",
+    "output": "SELECT COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to retrieve the latest plant stage and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the latest plant stage and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT mapPlantStageLocation,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY vw_trip_details.gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the Tare Weight and TW for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the Tare Weight and TW for the latest trip of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT tareWeight, tw FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY packingOut DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to calculate the time taken and find the driver ID for vehicle [VEHICLE_NUMBER].",
+    "input": "How much time was taken and who is the driver for the latest trip of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT timestampdiff(MINUTE, gateIn, gateOut) AS time_taken, driverId FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of unique stages completed by vehicle [VEHICLE_NUMBER].",
+    "input": "How many stages has vehicle [VEHICLE_NUMBER] completed?",
+    "output": "SELECT COUNT(DISTINCT mapPlantStageLocation) AS stages_completed FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "The task is to retrieve the material type for material code COMP.",
+    "input": "What material does the material type code COMP represent?",
+    "output": "SELECT materialType FROM transactionalplms.vw_trip_details WHERE material_code = 'COMP';"
+  },
+  {
+    "instruction": "The task is to retrieve material type, driver ID, and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the material type, driver ID, and DI number for the latest trip of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT material_code,driverId,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = [VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles currently at N205 for company IN10.",
+    "input": "How many vehicles from company IN10 are currently at N205?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'N205' AND company_code='IN10';"
+  },
+  {
+    "instruction": "The task is to count vehicles in the GATE-OUT stage between two timestamps.",
+    "input": "How many vehicles exited the plant between 15:55:21 and 17:07:38 on 2024-04- 21?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'GATE-OUT' AND gateOut BETWEEN '2024-04-21 15:55:21' AND '2024-04-21 17:07:38';"
+  },
+  {
+    "instruction": "The task is to calculate average time taken for Yard-IN and Packing stages.",
+    "input": "What is the average time taken for Yard-IN and Packing stages?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, yardIn, yardOut)) AS avg_yard_time, AVG(TIMESTAMPDIFF(MINUTE, packingIn, packingOut)) AS avg_packing_time FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'YARD-IN';"
+  },
+  {
+    "instruction": "The task is to retrieve the Tare Weight and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the Tare Weight and DI number for the latest trip of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT tareWeight,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber='[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count aborted and completed trips for today.",
+    "input": "How many trips were aborted and completed today?",
+    "output": "SELECT COUNT(*) AS aborted_count, COUNT(*) AS completed_trip FROM transactionalplms.vw_trip_details WHERE status = 'A' OR status = 'C' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to retrieve the vehicle number, driver ID, and stage for a specific trip ID.",
+    "input": "What is the vehicle number, driver ID, and stage for trip ID 20240418174953893?",
+    "output": "SELECT vehicleNumber, driverId, mapPlantStageLocation FROM transactionalplms.vw_trip_details WHERE tripId = '20240418174953893';"
+  },
+  {
+    "instruction": "The task is to count the stages covered, retrieve the driver ID, and DI number for vehicle [VEHICLE_NUMBER].",
+    "input": "How many stages were covered, and what are the driver ID and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT COUNT(DISTINCT vw_trip_details.mapPlantStageLocation) AS stages_covered,driverId,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' GROUP BY driverId, diNumber ORDER BY MAX(vw_trip_details.gateIn) DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to retrieve the sequence number and driver ID for vehicle [VEHICLE_NUMBER].",
+    "input": "What is the sequence number and driver ID for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT sequence_status, driverId FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to calculate the average time taken between Packing-In and Packing-Out stages.",
+    "input": "What is the average time taken between Packing-In and Packing-Out?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, packingIn, packingOut)) AS avg_packing_time from transactionalplms.vw_trip_details;"
+  },
+  {
+    "instruction": "The task is to calculate trips with status completed",
+    "input": "How many trips with status 'C' are in plant N205?",
+    "output": "SELECT COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details WHERE status = 'C' AND plantCode='N205';"
+  },
+  {
+    "instruction": "The task is to count vehicles handling material type PSC today in plant N205.",
+    "input": "How many vehicles are handling PSC material type today in plant N205?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE material_code = 'PSC' AND DATE(gateIn) = CURRENT_DATE AND plantCode='N205';"
+  },
+  {
+    "instruction": "The task is to retrieve the trip ID and driver ID for trip ID 559.",
+    "input": "What is the trip ID and driver ID for ID 559?",
+    "output": "SELECT tripId, driverId FROM transactionalplms.vw_trip_details WHERE id = '559';"
+  },
+  {
+    "instruction": "The task is to count vehicles associated with company IN20 in plant N205.",
+    "input": "How many vehicles are associated with company IN20 in plant N205?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE company_code = 'IN20' AND plantCode='N205';"
+  },
+  {
+    "instruction": "The task is to count vehicles handling materials COMP or PPC.",
+    "input": "How many vehicles are handling materials COMP or PPC?",
+    "output": "SELECT COUNT(DISTINCT vehicleNumber) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE material_code IN ('COMP', 'PPC');"
+  },
+  {
+    "instruction": "The task is to find the vehicle that took the maximum time from gate-in to gate-out today.",
+    "input": "Which vehicle took the maximum time from gate-in to gate-out today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_taken, driverId FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE ORDER BY time_taken DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the vehicle stages completed for ID 1005.",
+    "input": "Which vehicle completed stages and how many for ID 1005?",
+    "output": "SELECT vehicleNumber, COUNT(DISTINCT mapPlantStageLocation) AS stages_completed FROM transactionalplms.vw_trip_details WHERE id = '1005';"
+  },
+  {
+    "instruction": "The task is to find the current stage and driver ID of vehicle [VEHICLE_NUMBER].",
+    "input": "Where is [VEHICLE_NUMBER] right now, and who is the driver?",
+    "output": "SELECT mapPlantStageLocation, driverId FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the vehicle that spent the least time in the plant today.",
+    "input": "Which vehicle spent the least time in the plant today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_taken FROM transactionalplms.trip WHERE DATE(gateIn) = CURRENT_DATE AND gateOut IS NOT NULL ORDER BY time_taken ASC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the total goods weight handled by IN10 within a specific time period.",
+    "input": "What is the total goods weight handled by IN10 between 2024-04-18 17:27:26 and 2024-04-20 12:10:35?",
+    "output": "SELECT sum(tw) AS goods_weight FROM transactionalplms.vw_trip_details WHERE company_code = 'IN10' AND gateIn BETWEEN '2024-04-18 17:27:26' AND '2024-04-20 12:10:35';"
+  },
+  {
+    "instruction": "The task is to count vehicles that entered the plant today by 3 PM.",
+    "input": "How many vehicles entered the plant by 3 PM today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND TIME(gateIn) <= '15:00:00';"
+  },
+  {
+    "instruction": "The task is to find the vehicle that spent the most time in the plant today.",
+    "input": "Which vehicle spent the most time in the plant today?",
+    "output": "SELECT vehicleNumber, driverId, tw, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_taken FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE ORDER BY time_taken DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count vehicles in each stage today.",
+    "input": "What is the total count of vehicles in each stage today?",
+    "output": "SELECT mapPlantStageLocation, COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE GROUP BY mapPlantStageLocation;"
+  },
+  {
+    "instruction": "The task is to count vehicles currently in the Packing-Out stage.",
+    "input": "How many vehicles are in the Packing-Out stage?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'Packing-Out' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count vehicles in Yard-Out and Gate-Out stages today.",
+    "input": "How many vehicles are in the Yard-Out and Gate-Out stages today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation IN ('Yard-Out','Gate-Out') AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to calculate the total vehicles, count of vehicles with status 'C,' and their ratio to the total.",
+    "input": "What is the total number of vehicles, those with status 'C,' and their ratio?",
+    "output": "SELECT COUNT(*) AS total_vehicles, SUM(CASE WHEN status = 'c' THEN 1 ELSE 0 END) AS vehicle_count_c, ROUND(SUM(CASE WHEN status = 'c' THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 2) AS ratio_c_to_total FROM transactionalplms.vw_trip_details;"
+  },
+  {
+    "instruction": "The task is to count distinct stages completed for a given trip ID 764.",
+    "input": "How many distinct stages were completed for trip ID 764?",
+    "output": "SELECT COUNT(DISTINCT mapPlantStageLocation) AS stages_completed, mapPlantStageLocation FROM transactionalplms.vw_trip_details WHERE id = '764';"
+  },
+  {
+    "instruction": "The task is to count completed trips in the Packing-In stage.",
+    "input": "How many completed trips are in the Packing-In stage?",
+    "output": "SELECT COUNT(*) AS completed_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'packingIn' AND packingIn IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to count completed trips in the Packing-In stage for the current date.",
+    "input": "How many trips have completed the Packing-In stage today?",
+    "output": "SELECT COUNT(*) AS completed_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'Packing-In' AND packingIn IS NOT NULL AND DATE(packingIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to get the Yard-In time, driver ID, and DI number for a specific vehicle.",
+    "input": "What is the Yard-In time, driver ID, and DI number for vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT yardIn,driverId,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "The task is to count vehicles that have exited the plant today.",
+    "input": "How many vehicles have exited the plant today?",
+    "output": "SELECT COUNT(*) AS exited_count FROM transactionalplms.vw_trip_details WHERE DATE(gateOut) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count active vehicles currently in the plant at a specific location.",
+    "input": "How many vehicles are active in plant code N205?",
+    "output": "SELECT COUNT(*) AS active_vehicle_count FROM transactionalplms.vw_trip_details WHERE gateOut IS NULL AND plantCode = 'N205';"
+  },
+  {
+    "instruction": "The task is to find the first vehicle that entered the plant today.",
+    "input": "Which vehicle entered the plant first today?",
+    "output": "SELECT vehicleNumber, driverId FROM transactionalplms.vw_trip_details WHERE gateIn = CURRENT_DATE ORDER BY gateIn ASC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to check if a specific vehicle has completed the Gate-Out stage today.",
+    "input": "Has vehicle [VEHICLE_NUMBER] successfully completed the Gate-Out stage today?",
+    "output": "SELECT CASE WHEN COUNT(*) > 0 THEN 'Yes' ELSE 'No' END AS gate_out_completed FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' AND mapPlantStageLocation = 'gateOut' AND DATE(gateOut) = CURRENT_DATE AND gateOut IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to count the vehicles from the previous week.",
+    "input": "How many vehicles were there in the plant last week?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE WEEK(gateIn) = WEEK(CURRENT_DATE) - 1 AND plantCode = 'N205';"
+  },
+  {
+    "instruction": "The task is to find the date with the maximum number of vehicles, unique vehicles, and their processing time.",
+    "input": "On which date was the maximum number of vehicles present in the plant?",
+    "output": "SELECT DATE(gateIn) AS date, COUNT(*) AS vehicle_count, COUNT(DISTINCT vehicleNumber) AS unique_vehicles, SUM(CASE WHEN mapPlantStageLocation ='Packing-In' THEN 1 ELSE 0 END) AS packing_in_count, SUM(CASE WHEN mapPlantStageLocation = 'Gate-Out' THEN 1 ELSE 0 END) AS gate_out_count, ROUND(AVG(TIMESTAMPDIFF(MINUTE, gateIn, gateOut)), 2) AS avg_processing_time_minutes FROM transactionalplms.vw_trip_details WHERE gateIn IS NOT NULL GROUP BY DATE(gateIn) ORDER BY vehicle_count DESC, avg_processing_time_minutes ASC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count trips completed by a specific company today.",
+    "input": "How many trips were completed today by vehicles from company IN20?",
+    "output": "SELECT COUNT(*) AS trips_count FROM transactionalplms.vw_trip_details WHERE company_code = 'IN20' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to find distinct vehicle numbers that entered and exited the yard today.",
+    "input": "Which vehicles entered and exited the yard today?",
+    "output": "SELECT DISTINCT vehicleNumber FROM transactionalplms.vw_trip_details WHERE yardIn = CURRENT_DATE AND yardOut = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count vehicles that entered and exited the yard today.",
+    "input": "How many vehicles entered and exited the yard today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE yardIn = CURRENT_DATE AND yardOut = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count and group vehicles by their number that entered and exited the yard today.",
+    "input": "Provide the vehicle numbers and counts for vehicles that entered and exited the yard today.",
+    "output": "SELECT DISTINCT vehicleNumber, COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE yardIn = CURRENT_DATE AND yardOut = CURRENT_DATE GROUP BY vehicleNumber;"
+  },
+  {
+    "instruction": "The task is to count the trips with status 'C'.",
+    "input": "How many trips have status 'C'?",
+    "output": "SELECT COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details WHERE status = 'C';"
+  },
+  {
+    "instruction": "The task is to find vehicles that have completed Packing-Out but have not yet exited the plant today.",
+    "input": "Which vehicles have completed Packing-Out but not Gate-Out today?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE packingOut IS NOT NULL AND gateOut IS NULL AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to find vehicles that entered the plant before 9 AM today.",
+    "input": "Which vehicles entered the plant before 9 AM today?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE TIME(gateIn) < '09:00:00' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count vehicles with status 'A' that entered the plant today.",
+    "input": "How many vehicles with status 'A' entered the plant today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE status = 'A' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to find the vehicle that spent the most time in the yard today.",
+    "input": "Which vehicle spent the most time in the yard today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, yardIn, yardOut) AS time_spent FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE ORDER BY time_spent DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count trips completed today for material type 'COMP' with status 'C\u00e2\u20ac\u2122.",
+    "input": "How many 'COMP' trips with status 'C' were completed today?",
+    "output": "SELECT COUNT(*) AS trips_completed FROM transactionalplms.vw_trip_details WHERE material_code = 'COMP' AND status = 'C' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count vehicles currently active in the plant today.",
+    "input": "How many vehicles are still active in the plant today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND gateOut IS NULL;"
+  },
+  {
+    "instruction": "The task is to calculate the percentage of active vehicles today compared to total entries.",
+    "input": "What percentage of vehicles are still active in the plant today?",
+    "output": "SELECT (COUNT(*) * 100 / (SELECT COUNT(*) FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE)) AS active_percentage FROM transactionalplms.vw_trip_details WHERE gateOut IS NULL AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count completed trips for the current month.",
+    "input": "How many trips with status 'C' were completed this month?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE status = 'C' AND MONTH(gateIn) = MONTH(CURRENT_DATE);"
+  },
+  {
+    "instruction": "The task is to find trip counts for each vehicle with status 'C' for the current month.",
+    "input": "How many trips with status 'C' did each vehicle complete this month?",
+    "output": "SELECT vehicleNumber, COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details WHERE status = 'C' AND MONTH(gateIn) = MONTH(CURRENT_DATE) AND YEAR(gateIn) = YEAR(CURRENT_DATE) GROUP BY vehicleNumber;"
+  },
+  {
+    "instruction": "The task is to find vehicles carrying 'PPC' material type that have not exited the plant yet.",
+    "input": "Which vehicles carrying 'PPC' are still in the plant?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE material_code = 'PPC' AND gateOut IS NULL;"
+  },
+  {
+    "instruction": "The task is to find the vehicle with the highest number of trips in total.",
+    "input": "Which vehicle has the highest number of trips?",
+    "output": "SELECT vehicleNumber, COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details GROUP BY vehicleNumber ORDER BY trip_count DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find vehicles that entered the plant multiple times today.",
+    "input": "Which vehicles entered the plant multiple times today?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE GROUP BY vehicleNumber HAVING COUNT(*) > 1;"
+  },
+  {
+    "instruction": "The task is to count vehicles that exited the yard but not the plant today.",
+    "input": "How many vehicles exited the yard but have not exited the plant today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE DATE(yardOut) = CURRENT_DATE AND gateOut IS NULL;"
+  },
+  {
+    "instruction": "The task is to find the first vehicle that exited the plant today.",
+    "input": "Which vehicle exited the plant first today?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE DATE(gateOut) = CURRENT_DATE ORDER BY gateOut ASC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find vehicles with missing yard entry but recorded yard exit.",
+    "input": "Which vehicles have missing Yard-In but recorded Yard-Out?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE yardIn IS NULL AND yardOut IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to calculate the average time spent from Yard-In to Gate-Out for completed stages.",
+    "input": "What is the average time spent from Yard-In to Gate-Out for completed trips?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, yardIn, gateOut)) AS avg_time FROM transactionalplms.vw_trip_details WHERE yardIn IS NOT NULL AND gateOut IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to find the vehicle that spent the least time in the plant today.",
+    "input": "Which vehicle spent the least time in the plant today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_spent FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND gateOut IS NOT NULL ORDER BY time_spent ASC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to list all distinct material types for vehicles currently in the plant.",
+    "input": "What are the distinct material types for vehicles still in the plant?",
+    "output": "SELECT DISTINCT material_code FROM transactionalplms.vw_trip_details WHERE gateOut IS NULL;"
+  },
+  {
+    "instruction": "The task is to check if the vehicle has completed Yard-In stage.",
+    "input": "Has the vehicle '[VEHICLE_NUMBER]' completed Yard-In stage?",
+    "output": "SELECT CASE WHEN COUNT(*) > 0 THEN 'Yes' ELSE 'No' END AS yard_in_completed FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' AND mapPlantStageLocation = 'yardIn';"
+  },
+  {
+    "instruction": "The task is to count trips that entered the plant today.",
+    "input": "How many trips entered the plant today?",
+    "output": "SELECT COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to find the current plant stage of a specific vehicle.",
+    "input": "What is the current stage of vehicle '[VEHICLE_NUMBER]'?",
+    "output": "SELECT mapPlantStageLocation AS current_stage FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the tare weight of a specific vehicle that entered the plant today.",
+    "input": "What is the tare weight of vehicle '[VEHICLE_NUMBER]' that entered the plant today?",
+    "output": "SELECT vehicleNumber, tareWeight FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to calculate the time spent by a specific vehicle in the plant.",
+    "input": "How much time did vehicle 'TS01UC241' spend in the plant?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_spent FROM transactionalplms.vw_trip_details WHERE vehicleNumber = 'TS01UC241';"
+  },
+  {
+    "instruction": "The task is to find the number of distinct plant stages completed by a specific vehicle.",
+    "input": "How many distinct stages has vehicle '[VEHICLE_NUMBER]' completed?",
+    "output": "SELECT vehicleNumber, COUNT(DISTINCT mapPlantStageLocation) AS stages_completed FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "The task is to identify the material corresponding to the code 'COMP'.",
+    "input": "Which material has the code 'COMP'?",
+    "output": "SELECT materialType FROM transactionalplms.vw_trip_details WHERE material_code = 'COMP';"
+  },
+  {
+    "instruction": "The task is to identify the material type carried by a specific vehicle.",
+    "input": "What material type is the vehicle [VEHICLE_NUMBER] carrying?",
+    "output": "SELECT material_code FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles currently at location N205.",
+    "input": "How many vehicles are currently at N205?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'N205';"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles in the Gate-Out stage.",
+    "input": "How many vehicles are in the Gate-Out stage?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'Gate-Out';"
+  },
+  {
+    "instruction": "The task is to calculate the average time vehicles spend in Yard-In stage.",
+    "input": "How much time on average does a vehicle take in Yard-In?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, yardIn, yardOut)) AS avg_yard_time FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'YARD-IN';"
+  },
+  {
+    "instruction": "The task is to find the tare weight, time, and date for specific vehicles.",
+    "input": "What is the tare weight, time, and date for vehicles '[VEHICLE_NUMBER]' and '[VEHICLE_NUMBER]'?",
+    "output": "SELECT vehicleNumber, tareWeight, DATE(gateIn) AS date, TIME(gateIn) AS time FROM transactionalplms.vw_trip_details WHERE vehicleNumber IN ('VEHICLE_NUMBER', '[VEHICLE_NUMBER]');"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles aborted today.",
+    "input": "How many vehicles have been aborted today?",
+    "output": "SELECT COUNT(*) AS aborted_count FROM transactionalplms.vw_trip_details WHERE status = 'A' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to find the vehicle number related to a specific trip ID.",
+    "input": "What is the vehicle number related to trip ID '2024042514482296'?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE tripId = '2024042514482296';"
+  },
+  {
+    "instruction": "The task is to find the number of stages covered by a specific vehicle.",
+    "input": "How many stages have been covered by the vehicle '[VEHICLE_NUMBER]'?",
+    "output": "SELECT COUNT(DISTINCT mapPlantStageLocation) AS stages_covered FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "The task is to find the chassis number for a specific vehicle.",
+    "input": "what is the chassis number the vehicle '[VEHICLE_NUMBER]'?",
+    "output": "SELECT chassis_number FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to calculate the average time taken between Packing-In and Packing-Out stages.",
+    "input": "On average, how much time does a vehicle take between Packing-In and Packing-Out?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, packingIn, packingOut)) AS avg_packing_time FROM transactionalplms.vw_trip_details WHERE packingIn IS NOT NULL AND packingOut IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to count the number of trips with diqty>10 and with 'A' status.",
+    "input": "How many vehicles have diqty>10 with 'A' status?",
+    "output": "SELECT COUNT(*) AS trip_count FROM transactionalplms.vw_trip_details WHERE diqty>'10' AND status = 'A';"
+  },
+  {
+    "instruction": "The task is to check if a vehicle is carrying a specific material and, if not, identify the vehicle carrying it.",
+    "input": "Is vehicle '[VEHICLE_NUMBER]' carrying the material type '000000148000010009'? If not, which vehicle is carrying it?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE materialType = '000000148000010009';"
+  },
+  {
+    "instruction": "The task is to count the trips completed without any issues.",
+    "input": "How many trips have been done by vehicles without any issues?",
+    "output": "SELECT COUNT(*) AS completed_trips FROM transactionalplms.vw_trip_details WHERE status = 'C';"
+  },
+  {
+    "instruction": "The task is to find the number of vehicles carrying the material PSC today.",
+    "input": "How many vehicles have the material PSC today?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE material_code = 'PSC' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to find the vehicle number for a given IGP number.",
+    "input": "What is the vehicle number for IGP number '2370051830'?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE igpNumber = '2370051830';"
+  },
+  {
+    "instruction": "The task is to identify the trip associated with a given serial number.",
+    "input": "Which trip is associated with serial number '559'?",
+    "output": "SELECT tripId FROM transactionalplms.vw_trip_details WHERE id = '559';"
+  },
+  {
+    "instruction": "The task is to find the number of vehicles associated with a specific company and provide the count.",
+    "input": "How many vehicles are associated with company IN20?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE company_code = 'IN20';"
+  },
+  {
+    "instruction": "The task is to count the vehicles handling materials COMP and PPC.",
+    "input": "How many vehicles are handling COMP and PPC?",
+    "output": "SELECT COUNT(DISTINCT vehicleNumber) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE material_code IN ('COMP', 'PPC');"
+  },
+  {
+    "instruction": "The task is to count the number of plants associated with a specific company.",
+    "input": "How many plants are associated with IN10?",
+    "output": "SELECT COUNT(DISTINCT plantCode) AS plant_count FROM transactionalplms.vw_trip_details WHERE company_code = 'IN10';"
+  },
+  {
+    "instruction": "The task is to find the vehicle that took the maximum time from entry to exit today.",
+    "input": "Which vehicle took the maximum time from entry to exit today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_taken FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND gateOut IS NOT NULL ORDER BY time_taken DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the gross weight time of a specific vehicle.",
+    "input": "What is the gross weight time of vehicle [VEHICLE_NUMBER]?",
+    "output": "SELECT grossWeight, TIME(gateIn) AS time FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "The task is to find the vehicle associated with a specific ID and the stages it completed.",
+    "input": "Which vehicle is with ID '1005,' and how many stages has it completed?",
+    "output": "SSELECT vehicleNumber, COUNT(DISTINCT mapPlantStageLocation) AS stages_completed FROM transactionalplms.vw_trip_details WHERE id = '1005';"
+  },
+  {
+    "instruction": "The task is to identify the current stage of a vehicle.",
+    "input": "Where is the vehicle [VEHICLE_NUMBER] right now?",
+    "output": "SELECT mapPlantStageLocation AS current_stage FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to find the vehicle with the minimum time to complete the stages today.",
+    "input": "Which vehicle has the minimum time to complete the stages today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_taken FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND gateOut IS NOT NULL ORDER BY time_taken DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to calculate the total goods handled by a specific company.",
+    "input": "How many goods are being handled by IN10?",
+    "output": "SELECT SUM(tw) AS goods_weight FROM transactionalplms.vw_trip_details WHERE company_code = 'IN10';"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles present before a specific time.",
+    "input": "How many vehicles were there till 3 PM?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND TIME(gateIn) <= '15:00:00';"
+  },
+  {
+    "instruction": "The task is to find the vehicle with the maximum time to complete the stages today.",
+    "input": "Which vehicle has the maximum time to complete the stages today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, gateIn, gateOut) AS time_taken FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND gateOut IS NOT NULL ORDER BY time_taken DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the total vehicles in each stage at the moment.",
+    "input": "Can you show the total count of vehicles in each stage right now?",
+    "output": "SELECT mapPlantStageLocation, COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE GROUP BY mapPlantStageLocation;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles currently in the Packing-Out stage.",
+    "input": "How many vehicles are currently in the Packing-Out stage?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'Packing-Out' AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles currently between Yard-Out and Gate-Out stages.",
+    "input": "How many vehicles are currently between Yard-Out and Gate-Out stages?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation IN ('Yard-Out', 'Gate-Out') AND DATE(gateIn) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles with status 'C'.",
+    "input": "How many vehicles got status C?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE status = 'C';"
+  },
+  {
+    "instruction": "The task is to count the number of types for material code.",
+    "input": "How many types are there for material code?",
+    "output": "SELECT COUNT(DISTINCT material_code) AS type_count FROM transactionalplms.vw_trip_details;"
+  },
+  {
+    "instruction": "The task is to find the number of stages completed by a specific ID.",
+    "input": "How many stages are being completed by ID 764?",
+    "output": "SELECT COUNT(DISTINCT mapPlantStageLocation) AS stages_completed FROM transactionalplms.vw_trip_details WHERE id = '764';"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles that completed the Packing-In stage.",
+    "input": "How many vehicles completed the Packing-In stage?",
+    "output": "SELECT COUNT(*) AS completed_count FROM transactionalplms.vw_trip_details WHERE mapPlantStageLocation = 'Packing-In' AND packingIn IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to find the Yard-In completion time for a specific vehicle.",
+    "input": "When did vehicle [VEHICLE_NUMBER] complete the Yard-In?",
+    "output": "SELECT yardIn FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles that exited the plant today.",
+    "input": "How many vehicles have exited the plant today?",
+    "output": "SELECT COUNT(*) AS exited_count FROM transactionalplms.vw_trip_details WHERE DATE(gateOut) = CURRENT_DATE;"
+  },
+  {
+    "instruction": "The task is to count the total number of active vehicles within the plant.",
+    "input": "What is the total number of vehicles currently active within the plant?",
+    "output": "SELECT COUNT(*) AS active_vehicle_count FROM transactionalplms.vw_trip_details WHERE gateOut IS NULL;"
+  },
+  {
+    "instruction": "The task is to find the first vehicle that entered the plant today.",
+    "input": "Which vehicle entered the plant first today?",
+    "output": "SELECT vehicleNumber FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE ORDER BY gateIn ASC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles being loaded with material type COMP.",
+    "input": "How many vehicles are in the process of being loaded with material type COMP?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE material_code = 'COMP' AND gateOut IS NULL;"
+  },
+  {
+    "instruction": "The task is to check if a vehicle successfully completed the Gate-Out stage.",
+    "input": "Has vehicle [VEHICLE_NUMBER] successfully completed the Gate-Out stage?",
+    "output": "SELECT CASE WHEN COUNT(*) > 0 THEN 'Yes' ELSE 'No' END AS gate_out_completed FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' AND mapPlantStageLocation = 'Gate-Out' AND DATE(gateOut) = CURRENT_DATE AND gateOut IS NOT NULL;"
+  },
+  {
+    "instruction": "The task is to find the vehicle that took the longest time in the Yard-Out stage today.",
+    "input": "Which vehicle has taken the longest time in the Yard-Out stage today?",
+    "output": "SELECT vehicleNumber, TIMESTAMPDIFF(MINUTE, yardOut, gateOut) AS time_taken FROM transactionalplms.vw_trip_details WHERE DATE(gateIn) = CURRENT_DATE AND yardOut IS NOT NULL AND gateOut IS NOT NULL ORDER BY time_taken DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The task is to count the number of vehicles present last week.",
+    "input": "How many vehicles were there last week?",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE WEEK(gateIn) = WEEK(CURRENT_DATE) - 1;"
+  },
+  {
+    "instruction": "The task is to find the date with the maximum number of vehicles in the insplant.",
+    "input": "On which date was the maximum number of vehicles present in the plant?",
+    "output": "SELECT DATE(gateIn) AS date, COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details GROUP BY DATE(gateIn) ORDER BY vehicle_count DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The goal is give information about date on which there was maximum dispatch in last 6 months",
+    "input": "what was the highest dispatch day in last 6 months",
+    "output": "SELECT plantCode AS Plant, DATE(weighmentDate) AS Dispatch_Date, SUM(weight) AS Total_Dispatched_kg FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' AND DATE(weighmentDate) BETWEEN '2024-07-20' AND '2024-07-24' GROUP BY plantCode, DATE(weighmentDate) ORDER BY Total_Dispatched_kg DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The goal is give information about date on which there was maximum dispatch in last 1 year",
+    "input": "what was the highest dispatch day in last 1 year",
+    "output": "SELECT plantCode AS Plant, DATE(weighmentDate) AS Dispatch_Date, SUM(weight) AS Total_Dispatched_kg FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' AND DATE(weighmentDate) BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY plantCode, DATE(weighmentDate) ORDER BY Total_Dispatched_kg DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The goal is to find highest dispatch day between any date range",
+    "input": "what is the highest dispatch day between date '2024-07-20' AND '2024-07-24'",
+    "output": "SELECT plantCode AS Plant, DATE(weighmentDate) AS Dispatch_Date, SUM(weight) AS Total_Dispatched_kg FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' AND DATE(weighmentDate) BETWEEN '2024-07-20' AND '2024-07-24' GROUP BY plantCode, DATE(weighmentDate) ORDER BY Total_Dispatched_kg DESC LIMIT 1;"
+  },
+  {
+    "instruction": "The goal is to calculate the Turnaround Time (TAT) for each stage in the plant workflow. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the TAT for each stage in the workflow at plant N205?",
+    "output": "SELECT plantCode AS Plant, AVG(CASE WHEN yardIn <= yardOut THEN TIMESTAMPDIFF(MINUTE, yardIn, yardOut) ELSE NULL END) AS TAT_YardIn_to_YardOut, AVG(CASE WHEN yardOut <= gateIn THEN TIMESTAMPDIFF(MINUTE, yardOut, gateIn) ELSE NULL END) AS TAT_YardOut_to_GateIn, AVG(CASE WHEN gateIn <= tareWeight THEN TIMESTAMPDIFF(MINUTE, gateIn, tareWeight) ELSE NULL END) AS TAT_GateIn_to_TareWeight, AVG(CASE WHEN tareWeight <= packingIn THEN TIMESTAMPDIFF(MINUTE, tareWeight, packingIn) ELSE NULL END) AS TAT_TareWeight_to_PackingIn, AVG(CASE WHEN packingIn <= packingOut THEN TIMESTAMPDIFF(MINUTE, packingIn, packingOut) ELSE NULL END) AS TAT_PackingIn_to_PackingOut, AVG(CASE WHEN packingOut <= grossWeight THEN TIMESTAMPDIFF(MINUTE, packingOut, grossWeight) ELSE NULL END) AS TAT_PackingOut_to_GrossWeight, AVG(CASE WHEN grossWeight <= gateOut THEN TIMESTAMPDIFF(MINUTE, grossWeight, gateOut) ELSE NULL END) AS TAT_GrossWeight_to_GateOut FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' GROUP BY plantCode;"
+  },
+  {
+    "instruction": "The goal is to calculate the Turnaround Time (TAT) for avg TAT for entire vehicle journey at each plant. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the avg TAT for entire vehicle journey at each plant?",
+    "output": "SELECT plantCode,AVG(TIMESTAMPDIFF(MINUTE, yardIn, gateOut)) AS Avg_TAT_Full_Journey FROM transactionalplms.vw_trip_details WHERE yardIn IS NOT NULL AND gateOut IS NOT NULL AND TIMESTAMPDIFF(MINUTE, yardIn, gateOut) >= 0 GROUP BY plantCode;"
+  },
+  {
+    "instruction": "The goal is to calculate the Turnaround Time (TAT) between tareWeight and grossWeight. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the TAT between tareWeight and grossWeight at each plant?",
+    "output": "SELECT plantCode,SUM(TIMESTAMPDIFF(MINUTE, tareWeight, grossWeight)) AS Total_TAT_Tare_Gross FROM transactionalplms.vw_trip_details WHERE tareWeight IS NOT NULL AND grossWeight IS NOT NULL AND TIMESTAMPDIFF(MINUTE, tareWeight, grossWeight) >= 0 GROUP BY plantCode;"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) for each stage yesterday in the plant workflow. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "Which vehichles spent more than 60 mins in yardIn stage?",
+    "output": "SELECT vehicleNumber, yardIn, yardOut, TIMESTAMPDIFF(MINUTE, yardIn, yardOut) AS Yard_Time FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, yardIn, yardOut) > 60 ORDER BY Yard_Time DESC;"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) maximum, minimum and average time spent between yardIn and yardOut stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the maximum, minimum and average time spent between yardIn and yardOut stage at plant N205?",
+    "output": "SELECT MAX(TIMESTAMPDIFF(MINUTE, yardIn, yardOut)) AS Max_Yard_Time,MIN(TIMESTAMPDIFF(MINUTE, yardIn, yardOut)) AS Min_Yard_Time,AVG(TIMESTAMPDIFF(MINUTE, yardIn, yardOut)) AS Avg_Yard_Time FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, yardIn, yardOut) >= 0;"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) between grossWeight and gateOut stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT between grossWeight and gateOut stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, grossWeight, gateOut)) AS Avg_TAT_GrossWeight_to_GateOut FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, grossWeight, gateOut) >= 0;"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) between packingOut and grossWeight stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT between packingOut and grossWeight stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, packingOut, grossWeight)) AS Avg_TAT_PackingOut_to_GrossWeight FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, packingOut, grossWeight) >= 0 AND plantCode='N205';"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) between packingIn and packingOut stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT between packingIn and packingOut stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, packingIn, packingOut)) AS Avg_TAT_PackingIn_to_PackingOut FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, packingIn, packingOut) >= 0 AND plantCode='N205';"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) between tareWeight and packingIn stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT between tareWeight and packingIn stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, tareWeight, packingIn)) AS Avg_TAT_TareWeight_to_PackingIn FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, tareWeight, packingIn) >= 0 AND plantCode='N205';"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) fbetween gateIn and tareWeight stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT between gateIn and tareWeight stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, gateIn, tareWeight)) AS Avg_TAT_GateIn_to_TareWeight FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, gateIn, tareWeight) >= 0 AND plantCode='N205';"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) between yardOut and gateIn stage. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT today between yardOut and gateIn stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, yardOut, gateIn)) AS Avg_TAT_YardOut_to_GateIn FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, yardOut, gateIn) >= 0 AND plantCode='N205';"
+  },
+  {
+    "instruction": "The goal is to calculate the average Turnaround Time (TAT) at yardIn and yardOut stage for today. TAT is the time difference between consecutive stages for all vehicles, which helps identify bottlenecks and areas for improvement.",
+    "input": "What is the average TAT today for yardIn and yardOut stage at plant N205?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, yardIn, yardOut)) AS Avg_TAT_YardIn_to_YardOut FROM transactionalplms.vw_trip_details WHERE TIMESTAMPDIFF(MINUTE, yardIn, yardOut) >= 0 AND plantCode='N205';"
+  },
+  {
+    "instruction": "Generate a report showing how much material was sent to each company from all the plant. The query should aggregate the dispatched quantity grouped by company for all time.",
+    "input": "How much material was sent to each company by all Plants?",
+    "output": "SELECT company_code AS Company, plantCode AS Plant, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE consignmentDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) GROUP BY company_code, plantCode, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was sent to each company for today.",
+    "input": "How much material was sent to each company today?",
+    "output": "SELECT company_code AS Company, plantCode AS Plant, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE consignmentDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) GROUP BY company_code, plantCode, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was sent to each company for today from all plants.",
+    "input": "How much material was sent to each company today from all plants?",
+    "output": "SELECT company_code AS Company, plantCode AS Plant, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE consignmentDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) GROUP BY company_code, plantCode, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was sent to each company for the last 7 days from all plants.",
+    "input": "How much material was sent to each company in the last week from all plants?",
+    "output": "SELECT company_code AS Company, plantCode AS Plant, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE consignmentDate BETWEEN '2024-01-01' AND '2024-01-31' GROUP BY company_code, plantCode, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was sent to each company for the last month from all plants.",
+    "input": "How much material was sent to each company in the last month from all plants?",
+    "output": "SELECT company_code AS Company, plantCode AS Plant, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE consignmentDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) GROUP BY company_code, plantCode, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was sent to each company for a specific date range from all plants.",
+    "input": "How much material was sent to each company between '2024-01-01' and '2024-01-31' from all plants?",
+    "output": "SELECT company_code AS Company, plantCode AS Plant, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE consignmentDate BETWEEN '2024-01-01' AND '2024-01-31' GROUP BY company_code, plantCode, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was dispatched to each company from a specific plant.",
+    "input": "How much material was dispatched to each company from plant N205?",
+    "output": "SELECT company_code AS Company, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details GROUP BY company_code, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was dispatched to each company, material-wise, from a specific plant.",
+    "input": "How much material was dispatched to each company material-wise from plant NE03?",
+    "output": "SELECT company_code AS Company, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE plantCode = 'NE25' GROUP BY company_code, material_code ORDER BY company_code, Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material of a specific type was dispatched from a specific plant.",
+    "input": "How much material of type CEM was dispatched from plant NE25?",
+    "output": "SELECT company_code AS Company, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE plantCode = 'NE25' AND material_code = 'CEM' GROUP BY company_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing the total material dispatched for all material types from a specific plant.",
+    "input": "How much material was dispatched for all material types from plant N205?",
+    "output": "SELECT material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' GROUP BY material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was dispatched to each company across all plants.",
+    "input": "How much material was dispatched to each company across all plants?",
+    "output": "SELECT company_code AS Company, material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details GROUP BY company_code, material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material of a specific type was dispatched across all plants.",
+    "input": "How much material of type PPC was dispatched across all plants?",
+    "output": "SELECT plantCode AS Plant, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE material_code = 'PPC' GROUP BY plantCode ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material of a specific type was dispatched to each company across all plants.",
+    "input": "How much material of type COMP was dispatched to each company across all plants?",
+    "output": "SELECT company_code AS Company, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details WHERE material_code = 'COMP' GROUP BY company_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was dispatched for each material type across all plants.",
+    "input": "How much material was dispatched for each material type across all plants?",
+    "output": "SELECT material_code AS Material, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details GROUP BY material_code ORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a report showing how much material was dispatched to each company, broken down by plant.",
+    "input": "How much material was dispatched to each company, plant-wise?",
+    "output": "SELECT plantCode AS Plant,company_code AS Company, SUM(diqty) AS Total_Dispatched_Tons FROM transactionalplms.vw_trip_details GROUP BY plantCode, company_code ORDER BY plantCode, Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Generate a count of vehicles with No Tolerance (isToleranceFailed = 0) for a specific plant.",
+    "input": "How many vehicles for plant N205 have No Tolerance?",
+    "output": "SELECT COUNT(*) AS Vehicle_Count FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' AND isToleranceFailed = 0;"
+  },
+  {
+    "instruction": "Generate a count of vehicles with Tolerance Failed (isToleranceFailed = 1) for a specific plant.",
+    "input": "How many vehicles for plant N205 have Tolerance Failed?",
+    "output": "SELECT COUNT(*) AS Vehicle_Count FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' AND isToleranceFailed = 1;"
+  },
+  {
+    "instruction": "Generate a count of vehicles sent for manual approval (isToleranceFailed = 2) for a specific plant.",
+    "input": "How many vehicles for plant N205 were sent for Manual Approval?",
+    "output": "SELECT COUNT(*) AS Vehicle_Count FROM transactionalplms.vw_trip_details WHERE plantCode = 'N205' AND isToleranceFailed = 2;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "what is ponumber of vehicle number [VEHICLE_NUMBER]",
+    "output": "SELECT poNumber FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]' ORDER BY gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "ponumber of vehicle number [VEHICLE_NUMBER]",
+    "output": "SELECT poNumber FROM transactionalplms.vw_trip_details WHERE vehicleNumber = '[VEHICLE_NUMBER]';"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "what is the chassis number of vehicle number [VEHICLE_NUMBER]",
+    "output": "SELECT chassis_number \nFROM transactionalplms.vw_trip_details \nWHERE vehicleNumber = '[VEHICLE_NUMBER]' \nORDER BY gateIn DESC \nLIMIT 1;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "what is the average turn around time TAT of vehicles between yardin and gatein?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, yardIn, gateIn)) AS Avg_TAT_YardIn_to_GateIn \nFROM transactionalplms.vw_trip_details\nWHERE TIMESTAMPDIFF(MINUTE, yardIn, gateIn) >= 0;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "how many vehicles entered the plant on 24-04-2024?",
+    "output": "SELECT COUNT(*) AS vehicle_count\nFROM transactionalplms.vw_trip_details\nWHERE DATE(gateIn) = '2024-04-24';"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "how many vehicles entered the plant on 2024-05-13?",
+    "output": "SELECT COUNT(*) AS vehicle_count\nFROM transactionalplms.vw_trip_details\nWHERE DATE(gateIn) = '2024-05-13';"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "give me those 6 records",
+    "output": "SELECT * FROM transactionalplms.vw_trip_details LIMIT 6;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "give in tabular form",
+    "output": "SELECT company_code AS Company, \n       material_code AS Material, \n       SUM(diqty) AS Total_Dispatched_Tons \nFROM transactionalplms.vw_trip_details\nWHERE plantCode = 'N205'\nGROUP BY company_code, material_code \nORDER BY Total_Dispatched_Tons DESC;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "provide me ponumber of two vehicles. vehicle numbers are [VEHICLE_NUMBER] and [VEHICLE_NUMBER] ",
+    "output": "SELECT pONumber \nFROM transactionalplms.vw_trip_details\nWHERE vehicleNumber IN ('[VEHICLE_NUMBER]', 'JH10CD1265') \nORDER BY gateIn DESC\nLIMIT 2;"
+  },
+  {
+    "instruction": "Dynamically generated SQL (Generalized).",
+    "input": "provide me ponumber of two vehicles. vehicle numbers are [VEHICLE_NUMBER] and [VEHICLE_NUMBER]",
+    "output": "SELECT poNumber \nFROM transactionalplms.vw_trip_details\nWHERE vehicleNumber IN ('[VEHICLE_NUMBER]', '[VEHICLE_NUMBER]');"
+  },
+  {
+    "instruction": "Dynamically generated SQL.",
+    "input": "What is the average time taken between Packing-In and Packing-Out?",
+    "output": "SELECT AVG(TIMESTAMPDIFF(MINUTE, packingIn, packingOut)) AS avg_packing_time from transactionalplms.vw_trip_details;"
+  },
+  {
+    "instruction": "Dynamically generated SQL.",
+    "input": "What is the material code, driver ID, and DI number for the latest trip of vehicle JH10BQ9475",
+    "output": "SELECT material_code,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = 'JH10BQ9475' ORDER BY vw_trip_details.gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "Dynamically generated SQL.",
+    "input": "what is dinumber of vehicle number [VEHICLE_NUMBER_LIST]",
+    "output": "SELECT vehicleNumber, diNumber FROM transactionalplms.vw_trip_details WHERE vehicleNumber IN ([VEHICLE_NUMBER_LIST]);"
+  },
+  {
+    "instruction": "Dynamically generated SQL.",
+    "input": "what is dinumber of vehicle number JH09AR8268 and JH10CD1265",
+    "output": "SELECT material_code,diNumber FROM transactionalplms.vw_trip_details WHERE vw_trip_details.vehicleNumber = 'JH09AR8268' ORDER BY vw_trip_details.gateIn DESC LIMIT 1;"
+  },
+  {
+    "instruction": "Dynamically generated SQL.",
+    "input": "what was the total TAT for last month",
+    "output": "SELECT COUNT(*) AS vehicle_count FROM transactionalplms.vw_trip_details WHERE status = 'C' AND MONTH(gateIn) = MONTH(CURRENT_DATE);"
+  }
+]
