@@ -114,45 +114,8 @@ print("MYSQL_DATABASE:", MYSQL_DATABASE)
 
 # Database Schema (Now included)
 CACHED_DB_SCHEMA = """
-The database 'transactionalplms' has the following structure:
+The database 'defined database' has the following structure:
 
-1. transactionalplms.vw_trip_info:
-   - id (int): Unique ID of the trip record.
-   - tripId (string): Unique trip identifier.
-   - plantCode (string): Plant code.
-   - plant_name (string): Plant name.
-   - movementCode (string): Movement code.
-   - TokenNumber (string): Token number for vehicle entry.
-   - materialType (string): Type of material.
-   - material_code (string): Material code.
-   - vehicleNumber (string): Number of the vehicle.
-   - chassis_number (string): Chassis number.
-   - vehicle_capacity_min, vehicle_capacity_max (float): Vehicle capacity range.
-   - vehicle_type (string): Type of vehicle.
-   - transporter_name (string): Name of transporter.
-   - country_code (string): Country code of vehicle registration.
-   - mapPlantStageLocation (string): Current vehicle stage in plant.
-   - weightType (string): Weight type.
-   - weighmentDate (datetime): Date of weighment.
-   - weight (double): Measured weight.
-   - isToleranceFailed (boolean): Whether tolerance validation failed.
-   - weighbridgeCode (string): Weighbridge code.
-   - tolWeightLower, tolWeightUpper (double): Lower and upper weight tolerance.
-   - tolerance_Type, minimum_alert, maximum_alert, tolerance_validation (string): Weight tolerance validation details.
-   - yardIn, gateIn, gateOut, tareWeight, grossWeight, packingIn, packingOut, unloadingIn, unloadingOut, yardOut, abortedTime (datetime): Timestamps of various plant stages.
-   - sealNumber (string): Seal number assigned to the vehicle.
-   - tw, gw (double): Tare and gross weights.
-   - igpNumber (string): IGP number.
-   - driverId (string): Driver ID.
-   - abortedRemarks (string): Aborted trip remarks.
-   - abortedBy (string): User who aborted the trip.
-   - status (char): Status of the trip.
-   - dinumber (string): DI number.
-   - diqty (double): Quantity associated with DI.
-   - ponumber (string): PO number.
-   - po_qty (double): PO quantity.
-   - consignmentDate (datetime): Consignment date.
-   - cityName (string): City name associated with trip.
 """
  
 def connect_db():
@@ -212,7 +175,6 @@ def query_groq_api(prompt):
 entity_aliases = """
 - "vehicle" refers to "vehicleNumber"
 - "vehicle number" refers to "vehicleNumber"
-- "plant" refers to "plant_name"
 - "DI" refers to "dinumber"
 - "PO" refers to "ponumber"
 - "igp" refers to "igpNumber"
