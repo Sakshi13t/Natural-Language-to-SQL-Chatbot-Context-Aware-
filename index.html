@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #chat-container {
+            width: 500px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #chat-log {
+            height: 300px;
+            overflow-y: scroll;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 5px;
+        }
+
+        #send-button {
+            padding: 5px 10px;
+        }
+
+        #loading {
+            display: none;
+        }
+
+        .suggested-questions {
+            margin-top: 10px;
+        }
+
+        .suggested-questions button {
+            margin: 5px;
+            padding: 8px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .suggested-questions button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chat-container">
+        <div id="chat-log"></div>
+
+        <div class="suggested-questions" id="predefined-questions">
+            <strong>Ask a question:</strong>
+            <button onclick="askPredefinedQuestion('How many vehicles entered the plant today?')">How many vehicles entered the plant today?</button>
+            <button onclick="askPredefinedQuestion('Show material dispatch details of last month?')">Show material dispatch details of last month?</button>
+            <button onclick="askPredefinedQuestion('What is the current stage of vehicle ABC123?')">What is the current stage of vehicle ABC123?</button>
+            <button onclick="askPredefinedQuestion('Total trips completed this week?')">Total trips completed this week?</button>
+        </div>
+
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type your query here...">
+            <button id="send-button">Send</button>
+        </div>
+
+        <div id="loading">Bot: Processing...</div>
+        <div class="suggested-questions" id="follow-up-questions" style="display: none;"></div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const chatLog = document.getElementById("chat-log");
+            chatLog.innerHTML += `<p><strong>Bot:</strong> Hello! I am a chatbot designed for database queries. How can I help you today?</p>`;
+            chatLog.scrollTop = chatLog.scrollHeight;
+        };
+
+        function displayBotResponse(botResponse, userQuery) {
+            const chatLog = document.getElementById("chat-log");
+            const messageContainer = document.createElement("div");
+            messageContainer.innerHTML = `
+                <p><strong>Bot:</strong> ${botResponse}</p>
+                <button class="like-btn">👍</button>
+                <button class="dislike-btn">👎</button>
+            `;
+            chatLog.appendChild(messageContainer);
+
+            // Auto-scroll
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            // Add feedback button listeners
+            const likeButton = messageContainer.querySelector(".like-btn");
+            const dislikeButton = messageContainer.querySelector(".dislike-btn");
+
+            likeButton.addEventListener("click", () => {
+                sendFeedback(userQuery, botResponse, "like");
+            });
+            dislikeButton.addEventListener("click", () => {
+                sendFeedback(userQuery, botResponse, "dislike");
+            });
+        }
+
+        function sendFeedback(userQuery, response, feedbackType) {
+            console.log("Sending feedback:", userQuery, response, feedbackType);
+
+            fetch("/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    query: userQuery,
+                    response: response,
+                    feedback: feedbackType
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Feedback Response:", data);
+                    alert(data.message);
+                })
+                .catch(error => console.error("Error sending feedback:", error));
+        }
+
+        // Handles sending
+        function handleSend() {
+            const userInput = document.getElementById("user-input");
+            const sendButton = document.getElementById("send-button");
+            const query = userInput.value.trim();
+            if (query !== "") {
+                processQuery(query);
+                userInput.value = ""; // Clear input field after submission
+            }
+        }
+
+        document.getElementById("send-button").addEventListener("click", handleSend);
+
+        // ENTER key listener
+        document.getElementById("user-input").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                handleSend();
+            }
+        });
+
+        function askPredefinedQuestion(question) {
+            processQuery(question);
+        }
+
+        function processQuery(query) {
+            const chatLog = document.getElementById("chat-log");
+            const loading = document.getElementById("loading");
+            const sendButton = document.getElementById("send-button");
+
+            chatLog.innerHTML += `<p><strong>User:</strong> ${query}</p>`;
+            loading.style.display = "block";
+            sendButton.disabled = true;
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: query }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    displayBotResponse(data.response, query);
+                    displayFollowUpQuestions(data.suggestions || []);
+                })
+                .catch(error => {
+                    console.error("Error fetching chat response:", error);
+                    chatLog.innerHTML += `<p><strong>Bot:</strong> Error: Chat service unavailable.</p>`;
+                })
+                .finally(() => {
+                    loading.style.display = "none";
+                    sendButton.disabled = false;
+                    chatLog.scrollTop = chatLog.scrollHeight;
+                });
+        }
+
+        function displayFollowUpQuestions(suggestions) {
+            const followUpDiv = document.getElementById("follow-up-questions");
+            followUpDiv.innerHTML = "<strong>Follow-up questions:</strong>";
+            followUpDiv.style.display = "none";
+
+            if (Array.isArray(suggestions) && suggestions.length > 0) {
+                followUpDiv.style.display = "block";
+                suggestions.forEach(question => {
+                    const btn = document.createElement("button");
+                    btn.innerText = question;
+                    btn.onclick = () => askPredefinedQuestion(question);
+                    btn.style.margin = "5px";
+                    followUpDiv.appendChild(btn);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #chat-container {
+            width: 500px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #chat-log {
+            height: 300px;
+            overflow-y: scroll;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 5px;
+        }
+
+        #send-button {
+            padding: 5px 10px;
+        }
+
+        #loading {
+            display: none;
+        }
+
+        .suggested-questions {
+            margin-top: 10px;
+        }
+
+        .suggested-questions button {
+            margin: 5px;
+            padding: 8px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .suggested-questions button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chat-container">
+        <div id="chat-log"></div>
+        <div class="suggested-questions" id="predefined-questions">
+            <strong>Ask a question:</strong>
+            <button onclick="askPredefinedQuestion('How many vehicles entered the plant today?')">How many vehicles
+                entered the plant today?</button>
+            <button onclick="askPredefinedQuestion('Show material dispatch details of last month?')">Show material
+                dispatch details of last month?</button>
+            <button onclick="askPredefinedQuestion('What is the current stage of vehicle ABC123?')">What is the current
+                stage of vehicle ABC123?</button>
+            <button onclick="askPredefinedQuestion('Total trips completed this week?')">Total trips completed this
+                week?</button>
+        </div>
+        <div id="input-container">
+            <input type="text" id="user-input">
+            <button id="send-button">Send</button>
+        </div>
+        <div id="loading">Bot: Processing...</div>
+        <div class="suggested-questions" id="follow-up-questions" style="display: none;"></div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const chatLog = document.getElementById("chat-log");
+            chatLog.innerHTML += `<p><strong>Bot:</strong> Hello! I am a chatbot designed for database queries. How can I help you today?</p>`;
+        };
+        function displayBotResponse(botResponse, userQuery) {
+            const chatLog = document.getElementById("chat-log");
+            const messageContainer = document.createElement("div");
+            messageContainer.innerHTML = `
+        <p><strong>Bot:</strong> ${botResponse}</p>
+        <button class="like-btn">👍</button>
+        <button class="dislike-btn">👎</button>
+    `;
+            chatLog.appendChild(messageContainer);
+
+            // Add feedback button listeners
+            const likeButton = messageContainer.querySelector(".like-btn");
+            const dislikeButton = messageContainer.querySelector(".dislike-btn");
+
+            likeButton.addEventListener("click", () => {
+                sendFeedback(userQuery, botResponse, "like");
+            });
+            dislikeButton.addEventListener("click", () => {
+                sendFeedback(userQuery, botResponse, "dislike");
+            });
+        }
+
+
+        function sendFeedback(userQuery, response, feedbackType) {
+            console.log("📤 Sending feedback:", userQuery, response, feedbackType);
+
+            fetch("/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    query: userQuery,         // Add this line
+                    response: response,
+                    feedback: feedbackType
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Feedback Response:", data);
+                    alert(data.message);
+                })
+                .catch(error => console.error("Error sending feedback:", error));
+        }
+
+
+        // Handles sending
+        function handleSend() {
+            const userInput = document.getElementById("user-input");
+            const query = userInput.value.trim();
+            if (query !== "") {
+                processQuery(query);
+                userInput.value = ""; // Clear input field after submission
+            }
+        }
+
+        document.getElementById("send-button").addEventListener("click", handleSend);
+
+        // 🟢 ENTER KEY LISTENER
+        document.getElementById("user-input").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                handleSend();
+            }
+        });
+
+        function askPredefinedQuestion(question) {
+            processQuery(question);
+        }
+
+        function processQuery(query) {
+            const chatLog = document.getElementById("chat-log");
+            const loading = document.getElementById("loading");
+            chatLog.innerHTML += `<p><strong>User:</strong> ${query}</p>`;
+            loading.style.display = "block";
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: query }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    displayBotResponse(data.response, query); // Pass query here
+                    loading.style.display = "none";
+                    displayFollowUpQuestions(data.suggestions || []);
+                })
+                .catch(error => {
+                    console.error("Error fetching chat response:", error);
+                    chatLog.innerHTML += `<p><strong>Bot:</strong> Error: Chat service unavailable.</p>`;
+                });
+        }
+
+
+        function displayFollowUpQuestions(suggestions) {
+            const followUpDiv = document.getElementById("follow-up-questions");
+            followUpDiv.innerHTML = "<strong>Follow-up questions:</strong>";
+            followUpDiv.style.display = "none";
+            if (Array.isArray(suggestions) && suggestions.length > 0) {
+                followUpDiv.style.display = "block";
+                suggestions.forEach(question => {
+                    const btn = document.createElement("button");
+                    btn.innerText = question;
+                    btn.onclick = () => askPredefinedQuestion(question);
+                    btn.style.margin = "5px";
+                    followUpDiv.appendChild(btn);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html> -->
